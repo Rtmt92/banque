@@ -5,6 +5,11 @@ import session from "express-session";
 import db from "./config/db.js"; 
 import utilisateurRoutes from "./routes/utilisateurRoutes.js";
 import compteRoutes from "./routes/compteRoutes.js";
+import cryptoRoutes from "./routes/cryptoRoutes.js";
+import portefeuilleRoutes from "./routes/portefeuilleRoutes.js";
+import transactionRoutes from "./routes/transactionRoutes.js";
+import achatVenteRoutes from "./routes/achatVenteRoutes.js";
+
 
 dotenv.config();
 
@@ -36,5 +41,9 @@ app.get("/", (req, res) => {
 
 app.use("/api/utilisateurs", utilisateurRoutes);
 app.use("/api/comptes", compteRoutes);
+app.use("/api/cryptos", cryptoRoutes);
+app.use("/api/portefeuilles", portefeuilleRoutes);
+app.use("/api/transactions", transactionRoutes);
+app.use("/api/achats-ventes", achatVenteRoutes);
 
 export default app;
