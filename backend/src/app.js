@@ -9,6 +9,7 @@ import cryptoRoutes from "./routes/cryptoRoutes.js";
 import portefeuilleRoutes from "./routes/portefeuilleRoutes.js";
 import transactionRoutes from "./routes/transactionRoutes.js";
 import achatVenteRoutes from "./routes/achatVenteRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 
 
 dotenv.config();
@@ -45,5 +46,6 @@ app.use("/api/cryptos", cryptoRoutes);
 app.use("/api/portefeuilles", portefeuilleRoutes);
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/achats-ventes", achatVenteRoutes);
+app.use("/api/auth", authRoutes);
 
 export default app;
