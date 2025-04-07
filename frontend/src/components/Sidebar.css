@@ -1,0 +1,49 @@
+.sidebar {
+    height: 100vh;
+    background: #005fa3;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px;
+    transition: width 0.3s;
+    border-radius: 0 20px 20px 0; /* coin droit uniquement */
+  }
+  
+  .sidebar.open {
+    width: 200px;
+  }
+  
+  .sidebar.closed {
+    width: 60px;
+  }
+  
+  .sidebar .toggle {
+    text-align: center;
+    cursor: pointer;
+    padding: 10px;
+    font-size: 1.3rem;
+  }
+  
+  .sidebar .menu {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .sidebar .menu a,
+  .sidebar .menu div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  .sidebar .logo {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  

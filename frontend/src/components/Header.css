@@ -1,0 +1,12 @@
+.header {
+  height: 60px;
+  border-bottom: 1px solid #005fa3; /* juste une ligne bleue */
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  background-color: white; /* fond blanc */
+}
+
+.header-logo {
+  height: 60px;
+}
