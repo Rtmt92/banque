@@ -1,0 +1,100 @@
+.home {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    color: #030A8D;
+
+  }
+
+  
+  .logo {
+    height: 40px;
+  }
+  
+  .crypto-section {
+    margin-bottom: 30px;
+    margin-left: 30px;
+    padding-right: 60%;
+
+  }
+  
+  .crypto-section h2 {
+    font-size: 1.5rem;
+    color: #030A8D;
+    ;
+  }
+  
+  .crypto-section h1 {
+    font-size: 2.5rem;
+    color: #030A8D;
+    display: inline;
+  }
+  
+  .percentage {
+    color: #008000;
+    font-size: 1.5rem;
+  }
+  
+  .buy-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 70px;
+    font-size: 1.2rem;
+    border-radius: 30px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .buy-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .chart-container {
+    margin-bottom: 30px;
+  }
+  
+  .account-section {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 30px;
+  }
+  
+  .account-section h3 {
+    color: #007bff;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  
+  .balance-container h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+  
+  .balance {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .transaction-history p {
+    margin: 5px 0;
+  }
+  
+  .actions-section {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+  }
+  
+  .action-item img {
+    height: 70px;
+    margin-bottom: 10px;
+  }
+  
+  .action-item p {
+    margin: 0;
+    font-size: 1rem;
+  }

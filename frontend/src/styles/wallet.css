@@ -1,0 +1,62 @@
+.wallet-container {
+    max-width: 80%;
+    margin: 50px auto;
+    text-align: center;
+    font-family: Arial, sans-serif;
+  }
+  
+  .wallet-card {
+    border: 1px solid #0a3974;
+    border-radius: 6px;
+    padding: 20px;
+    margin: 20px 0;
+    text-align: left;
+  }
+  
+  .wallet-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+  }
+  
+  .wallet-body p {
+    margin: 5px 0;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .wallet-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+  
+  .wallet-buttons button {
+    background-color: #005fa3;
+    color: white;
+    padding: 8px 25px;
+    border-radius: 20px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .crypto-card {
+    border: 1px solid #0a3974;
+    padding: 20px 150px;
+    margin: 10px auto;
+    border-radius: 6px;
+    max-width: 80%;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  
+  .crypto-card:hover {
+    background-color: #f0f8ff;
+  }
+  

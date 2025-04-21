@@ -19,7 +19,7 @@
     margin-bottom: 30px;
   }
   
-  .auth-form {
+  .auth-form{
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -55,4 +55,6 @@
     font-size: 0.9em;
     margin-top: 5px;
   }
+  
+
   

@@ -1,0 +1,54 @@
+.crypto-info-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f6f9fc;
+    font-family: Arial, sans-serif;
+  }
+  
+  .crypto-card-info {
+    background-color: white;
+    border: 1px solid #e1e4e8;
+    border-radius: 15px;
+    padding: 40px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    text-align: center;
+  }
+  
+  .crypto-card-info h1 {
+    color: #005fa3;
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  .crypto-card-info .symbol,
+  .crypto-card-info .date {
+    font-size: 1.1rem;
+    margin: 10px 0;
+    color: #333;
+  }
+  
+  .crypto-card-info span {
+    font-weight: bold;
+    color: #005fa3;
+  }
+  
+  .buy-button {
+    margin-top: 30px;
+    padding: 12px 30px;
+    background-color: #005fa3;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .buy-button:hover {
+    background-color: #003f75;
+  }
+  
