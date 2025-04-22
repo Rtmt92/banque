@@ -4,10 +4,12 @@ import { verifyToken } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
+// Routes
 router.get("/", verifyToken, getAllUsers);
 router.get("/:id", verifyToken, getUserById);
 router.post("/", verifyToken, createUser);
 router.put("/:id", verifyToken, updateUser);
 router.delete("/:id", verifyToken, deleteUser);
 
-export default router;
+// Exportation du router par défaut
+export default router;  // Assure-toi d'utiliser "export default"

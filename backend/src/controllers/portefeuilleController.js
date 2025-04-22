@@ -63,4 +63,24 @@ export const deletePortefeuille = async (req, res) => {
     } catch (err) {
         res.status(500).json({ error: "Erreur serveur", details: err.message });
     }
+
 };
+
+export const getUserPortefeuille = async (req, res) => {
+    const { userId } = req.params;
+    try {
+        const [rows] = await db.query(`
+            SELECT p.id, p.utilisateur_id, p.cryptomonnaie_id, c.nom AS cryptomonnaie, p.quantité 
+            FROM PortefeuilleCrypto p
+            JOIN Cryptomonnaie c ON p.cryptomonnaie_id = c.id
+            WHERE p.utilisateur_id = ?
+        `, [userId]);
+        if (rows.length === 0) {
+            return res.status(404).json({ message: "Aucune cryptomonnaie trouvée pour cet utilisateur" });
+        }
+        res.json(rows);
+    } catch (err) {
+        res.status(500).json({ error: "Erreur serveur", details: err.message });
+    }
+};
+
