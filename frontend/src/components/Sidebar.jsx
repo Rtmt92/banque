@@ -14,6 +14,9 @@ const Sidebar = () => {
       <div className="menu">
 
         <a href="/dashboard"><FaHome /> {open && <span>Dashboard</span>}</a>
+        <a href="/wallet"><FaUser /> {open && <span>Wallet</span>}</a>
+        <a href="/profile"><FaUser /> {open && <span>Profil</span>}</a>
+        <a href="/profile"><FaUser /> {open && <span>Comptes</span>}</a>
         <a href="/profile"><FaUser /> {open && <span>Profil</span>}</a>
         <div onClick={logout}><FaSignOutAlt /> {open && <span>Déconnexion</span>}</div>
       </div>
