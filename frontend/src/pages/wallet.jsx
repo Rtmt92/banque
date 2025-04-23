@@ -13,13 +13,12 @@ const WalletPage = () => {
   const token = localStorage.getItem("token");
   const userId = token ? JSON.parse(atob(token.split('.')[1])).userId : null;
 
-  // Récupération des cryptos disponibles
   useEffect(() => {
     const fetchAllCryptos = async () => {
       try {
         const response = await axios.get("http://localhost:5000/api/cryptos");
         setAllCryptos(response.data);
-        setFilteredCryptos(response.data); // Par défaut, affiche tout
+        setFilteredCryptos(response.data);
       } catch (error) {
         console.error("Erreur lors de la récupération des cryptos :", error);
       }
@@ -28,7 +27,6 @@ const WalletPage = () => {
     fetchAllCryptos();
   }, []);
 
-  // Récupération du portefeuille utilisateur
   useEffect(() => {
     const fetchUserHoldings = async () => {
       if (!userId) return;
@@ -43,7 +41,6 @@ const WalletPage = () => {
     fetchUserHoldings();
   }, [userId]);
 
-  // Gestion de la recherche
   const handleSearchChange = (e) => {
     const query = e.target.value.toLowerCase();
     setSearchQuery(query);
@@ -59,7 +56,6 @@ const WalletPage = () => {
 
   return (
     <div className="wallet-container">
-      {/* Portefeuille utilisateur */}
       {userHoldings.length > 0 && (
         <section className="user-cryptos">
           <h2>Vos cryptomonnaies</h2>
@@ -75,7 +71,6 @@ const WalletPage = () => {
         </section>
       )}
 
-      {/* Champ de recherche */}
       <div className="search-bar">
         <input
           type="text"
@@ -83,13 +78,9 @@ const WalletPage = () => {
           value={searchQuery}
           onChange={handleSearchChange}
         />
-        <button className="search-icon">
-          🔍
-        </button>
+        <button className="search-icon">🔍</button>
       </div>
 
-
-      {/* Cryptos disponibles */}
       <section className="wallet-cards">
         {filteredCryptos.slice(0, 3).map((crypto) => (
           <CryptoCard
@@ -97,7 +88,8 @@ const WalletPage = () => {
             id={crypto.id}
             name={crypto.nom}
             price={crypto.cours_actuel}
-            variation_24h={crypto.variation_24h} // Ajoute ça si dispo
+            variation_24h={crypto.variation_24h}
+            logo_url={crypto.logo} 
           />
         ))}
       </section>
