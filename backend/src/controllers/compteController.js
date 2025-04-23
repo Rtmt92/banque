@@ -20,6 +20,22 @@ export const getCompteById = async (req, res) => {
     }
 };
 
+
+
+export const getComptesByUtilisateur = async (req, res) => {
+    const { utilisateurId } = req.params;
+  
+    try {
+      const [rows] = await db.query("SELECT * FROM Compte WHERE utilisateur_id = ?", [utilisateurId]);
+      if (rows.length === 0) return res.status(404).json({ message: "Aucun compte trouvé" });
+      res.json(rows);
+    } catch (err) {
+      res.status(500).json({ error: "Erreur serveur", details: err.message });
+    }
+  };
+  
+  
+
 export const createCompte = async (req, res) => {
     const { utilisateur_id, type_compte, solde } = req.body;
     try {

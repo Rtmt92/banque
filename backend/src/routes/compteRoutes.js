@@ -1,5 +1,5 @@
 import express from "express";
-import { getAllComptes, getCompteById, createCompte, updateCompte, deleteCompte } from "../controllers/compteController.js";
+import { getAllComptes, getCompteById, createCompte, updateCompte, deleteCompte, getComptesByUtilisateur } from "../controllers/compteController.js";
 import { verifyToken } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
@@ -11,6 +11,7 @@ const router = express.Router();
 // router.delete("/:id", verifyToken, deleteCompte);
 
 router.get("/", getAllComptes);  
+router.get("/utilisateur/:utilisateurId", getComptesByUtilisateur);
 router.get("/:id", getCompteById);  
 router.post("/", createCompte);  
 router.put("/:id", updateCompte);  
