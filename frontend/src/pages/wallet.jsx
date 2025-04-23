@@ -83,7 +83,11 @@ const WalletPage = () => {
           value={searchQuery}
           onChange={handleSearchChange}
         />
+        <button className="search-icon">
+          🔍
+        </button>
       </div>
+
 
       {/* Cryptos disponibles */}
       <section className="wallet-cards">
