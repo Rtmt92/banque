@@ -5,78 +5,77 @@ import CryptoCard from "../components/CryptoCard";
 import "../styles/wallet.css";
 
 const WalletPage = () => {
-  const [cryptos, setCryptos] = useState([]);  // Liste de toutes les cryptos
+  const [allCryptos, setAllCryptos] = useState([]);
   const [filteredCryptos, setFilteredCryptos] = useState([]);
-  const [userCryptos, setUserCryptos] = useState([]);  // Cryptos possédées par l'utilisateur
+  const [userHoldings, setUserHoldings] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 
   const token = localStorage.getItem("token");
-  const userId = token ? JSON.parse(atob(token.split('.')[1])).userId : null;  // Décode le token pour récupérer l'ID de l'utilisateur
+  const userId = token ? JSON.parse(atob(token.split('.')[1])).userId : null;
 
-  // Récupérer les cryptos disponibles
+  // Récupération des cryptos disponibles
   useEffect(() => {
-    const fetchCryptos = async () => {
+    const fetchAllCryptos = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/cryptos");
-        setCryptos(res.data);
-        setFilteredCryptos(res.data); // Afficher toutes les cryptos par défaut
-      } catch (err) {
-        console.error("Erreur lors de la récupération des cryptos :", err);
+        const response = await axios.get("http://localhost:5000/api/cryptos");
+        setAllCryptos(response.data);
+        setFilteredCryptos(response.data); // Par défaut, affiche tout
+      } catch (error) {
+        console.error("Erreur lors de la récupération des cryptos :", error);
       }
     };
 
-    fetchCryptos();
+    fetchAllCryptos();
   }, []);
 
-  // Récupérer les cryptos possédées par l'utilisateur
+  // Récupération du portefeuille utilisateur
   useEffect(() => {
-    if (userId) {
-      const fetchUserCryptos = async () => {
-        try {
-          const res = await axios.get(`http://localhost:5000/api/portefeuilles/${userId}`);
-          setUserCryptos(res.data);  // Les cryptos de l'utilisateur
-        } catch (err) {
-          console.error("Erreur lors de la récupération des cryptos de l'utilisateur :", err);
-        }
-      };      
+    const fetchUserHoldings = async () => {
+      if (!userId) return;
+      try {
+        const response = await axios.get(`http://localhost:5000/api/portefeuilles/${userId}`);
+        setUserHoldings(response.data);
+      } catch (error) {
+        console.error("Erreur lors de la récupération du portefeuille utilisateur :", error);
+      }
+    };
 
-      fetchUserCryptos();
-    }
+    fetchUserHoldings();
   }, [userId]);
 
-  // Filtrer les cryptomonnaies selon la recherche
-  const handleSearchChange = (event) => {
-    const query = event.target.value;
+  // Gestion de la recherche
+  const handleSearchChange = (e) => {
+    const query = e.target.value.toLowerCase();
     setSearchQuery(query);
 
-    // Filtrer les cryptos en fonction de la recherche (nom ou symbole)
-    const filtered = cryptos.filter(
+    const filtered = allCryptos.filter(
       (crypto) =>
-        crypto.nom.toLowerCase().includes(query.toLowerCase()) ||
-        crypto.symbole.toLowerCase().includes(query.toLowerCase())
+        crypto.nom.toLowerCase().includes(query) ||
+        crypto.symbole.toLowerCase().includes(query)
     );
+
     setFilteredCryptos(filtered);
   };
 
   return (
     <div className="wallet-container">
-      {/* Affichage des cryptos possédées par l'utilisateur */}
-      {userCryptos.length > 0 && (
-        <div className="user-cryptos">
-          <h2>Vos cryptomonnaies :</h2>
+      {/* Portefeuille utilisateur */}
+      {userHoldings.length > 0 && (
+        <section className="user-cryptos">
+          <h2>Vos cryptomonnaies</h2>
           <div className="wallet-cards">
-            {userCryptos.map((userCrypto) => (
+            {userHoldings.map((holding) => (
               <WalletCard
-                key={userCrypto.id}
-                name={userCrypto.cryptomonnaie}
-                quantity={userCrypto.quantité}
+                key={holding.id}
+                name={holding.cryptomonnaie}
+                quantity={holding.quantité}
               />
             ))}
           </div>
-        </div>
+        </section>
       )}
 
-      {/* Barre de recherche */}
+      {/* Champ de recherche */}
       <div className="search-bar">
         <input
           type="text"
@@ -86,24 +85,18 @@ const WalletPage = () => {
         />
       </div>
 
-      {/* Affichage des cartes de cryptomonnaies disponibles */}
-      <div className="wallet-cards">
-        {/* Afficher les 3 premières cryptomonnaies filtrées */}
+      {/* Cryptos disponibles */}
+      <section className="wallet-cards">
         {filteredCryptos.slice(0, 3).map((crypto) => (
           <CryptoCard
             key={crypto.id}
             id={crypto.id}
             name={crypto.nom}
-            price={crypto.cours_actuel} // Utiliser le cours actuel
+            price={crypto.cours_actuel}
+            variation_24h={crypto.variation_24h} // Ajoute ça si dispo
           />
         ))}
-      </div>
-
-      {/* Sections de portefeuille */}
-      <div className="wallet-buttons">
-        <button>Acheter</button>
-        <button>Vendre</button>
-      </div>
+      </section>
     </div>
   );
 };
