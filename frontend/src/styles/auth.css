@@ -1,4 +1,13 @@
 /* Fond d’écran avec opacité à 20% uniquement */
+.auth-background {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Prend toute la hauteur de l'écran */
+  position: relative;
+}
+
+/* Fond d’écran avec opacité à 20% uniquement */
 .auth-background::before {
   content: "";
   position: fixed;
@@ -18,8 +27,8 @@
 
 /* Bloc centré avec fond blanc */
 .full-height {
+  width: 100%;
   max-width: 400px;
-  margin: 100px auto;
   padding: 30px;
   text-align: center;
   font-family: Arial, sans-serif;
