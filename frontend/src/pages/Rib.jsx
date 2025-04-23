@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import {jwtDecode} from "jwt-decode";
 import jsPDF from "jspdf";
 
 const RibPage = () => {
@@ -7,23 +8,40 @@ const RibPage = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchUser = async () => {
+    const fetchUserName = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("Aucun token trouvé");
+        setIsLoading(false);
+        return;
+      }
+
+      let userId;
       try {
-        const token = localStorage.getItem("token");
-        const res = await axios.get("http://localhost:5000/api/utilisateurs/1", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const decoded = jwtDecode(token);
+        userId = decoded.id;
+      } catch (err) {
+        console.error("Impossible de décoder le token :", err);
+        setIsLoading(false);
+        return;
+      }
+
+      try {
+        const res = await axios.get(
+          `http://localhost:5000/api/utilisateurs/${userId}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         setNom(res.data.nom);
       } catch (err) {
-        console.error("Erreur lors du chargement du nom :", err);
+        console.error("Erreur lors du chargement du nom :", err.response?.data || err.message);
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchUser();
+    fetchUserName();
   }, []);
 
   const generatePDF = () => {
@@ -41,7 +59,7 @@ const RibPage = () => {
   return (
     <div style={{ textAlign: "center", padding: "40px", fontFamily: "Arial" }}>
       <h2>Mon RIB</h2>
-      <p>Vous pouvez générer votre RIB au format PDF ci-dessous :</p>
+      <p>Vous pouvez générer votre RIB au format PDF ci-dessous&nbsp;:</p>
 
       {isLoading ? (
         <p>Chargement des informations...</p>

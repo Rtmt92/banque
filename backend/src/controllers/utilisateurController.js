@@ -1,4 +1,5 @@
 import db from "../config/db.js";
+import bcrypt from "bcryptjs";
 
 export const getAllUsers = async (req, res) => {
     try {
@@ -50,4 +51,25 @@ export const deleteUser = async (req, res) => {
     } catch (err) {
         res.status(500).json({ error: "Erreur serveur", details: err.message });
     }
+};
+
+// Mise à jour du mot de passe
+export const updateUserPassword = async (req, res) => {
+  const { id } = req.params;
+  const { nouveau_mot_de_passe } = req.body;
+
+  if (!nouveau_mot_de_passe) {
+    return res.status(400).json({ message: "Le mot de passe est requis." });
+  }
+
+  try {
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(nouveau_mot_de_passe, salt);
+
+    await db.query("UPDATE Utilisateur SET mot_de_passe = ? WHERE id = ?", [hashedPassword, id]);
+
+    res.json({ message: "Mot de passe mis à jour avec succès" });
+  } catch (err) {
+    res.status(500).json({ error: "Erreur serveur", details: err.message });
+  }
 };

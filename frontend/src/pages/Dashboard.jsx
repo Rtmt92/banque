@@ -135,11 +135,11 @@ const Home = () => {
             </div>
 
             <div className="actions-section">
-              <div className="action-item" onClick={() => navigate("/virement")} style={{ cursor: "pointer" }}>
+              <div className="action-item" onClick={() => navigate(`/virement/${compte.id}`)}  style={{ cursor: "pointer" }}>
                 <img src={transaction} alt="Effectuer un virement" />
                 <p>Effectuer un virement</p>
               </div>
-              <div className="action-item" onClick={() => navigate("/historique")} style={{ cursor: "pointer" }}>
+              <div className="action-item" onClick={() => navigate(`/historique/${compte.id}`)} style={{ cursor: "pointer" }}>
                 <img src={history} alt="Historique" />
                 <p>L'historique</p>
               </div>
