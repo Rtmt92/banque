@@ -135,7 +135,7 @@ const Home = () => {
             </div>
 
             <div className="actions-section">
-              <div className="action-item" onClick={() => navigate("/virement")} style={{ cursor: "pointer" }}>
+              <div className="action-item" onClick={() => navigate(`/virement/${compte.id}`)}  style={{ cursor: "pointer" }}>
                 <img src={transaction} alt="Effectuer un virement" />
                 <p>Effectuer un virement</p>
               </div>

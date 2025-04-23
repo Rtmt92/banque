@@ -93,4 +93,53 @@ export const getTransactionsByCompteId = async (req, res) => {
       res.status(500).json({ error: "Erreur serveur", details: err.message });
     }
   };
+
+
+
+export const effectuerVirement = async (req, res) => {
+  const { compte_source_id, compte_dest_id, montant, type_transaction } = req.body;
+
+  if (!compte_source_id || !compte_dest_id || !montant || !type_transaction) {
+    return res.status(400).json({ message: "Champs requis manquants." });
+  }
+
+  try {
+    // Commencer une transaction MySQL
+    await db.query("START TRANSACTION");
+
+    // Récupérer les soldes
+    const [[source]] = await db.query("SELECT solde FROM Compte WHERE id = ?", [compte_source_id]);
+    const [[dest]] = await db.query("SELECT solde FROM Compte WHERE id = ?", [compte_dest_id]);
+
+    if (!source || !dest) {
+      await db.query("ROLLBACK");
+      return res.status(404).json({ message: "Compte source ou destinataire introuvable." });
+    }
+
+    if (source.solde < montant) {
+      await db.query("ROLLBACK");
+      return res.status(400).json({ message: "Solde insuffisant pour effectuer le virement." });
+    }
+
+    // Mettre à jour les soldes
+    await db.query("UPDATE Compte SET solde = solde - ? WHERE id = ?", [montant, compte_source_id]);
+    await db.query("UPDATE Compte SET solde = solde + ? WHERE id = ?", [montant, compte_dest_id]);
+
+    // Insérer la transaction
+    await db.query(
+      `INSERT INTO Transaction (compte_source_id, compte_dest_id, montant, type_transaction, statut)
+       VALUES (?, ?, ?, ?, 'validée')`,
+      [compte_source_id, compte_dest_id, montant, type_transaction]
+    );
+
+    // Valider la transaction MySQL
+    await db.query("COMMIT");
+
+    res.status(201).json({ message: "Virement effectué avec succès." });
+  } catch (err) {
+    await db.query("ROLLBACK");
+    res.status(500).json({ error: "Erreur serveur", details: err.message });
+  }
+};
+
   

@@ -9,6 +9,7 @@ import Home from "./pages/Home";
 import Wallet from "./pages/wallet";
 import RibPage from "./pages/Rib";
 import CryptoInfo from "./pages/CryptoInfo";
+import Virement from "./pages/Virement";
 
 const App = () => {
   return (
@@ -21,6 +22,8 @@ const App = () => {
         <Route path="/wallet" element={<><Header /><Wallet /></>} />
         <Route path="/rib" element={<><Header /><RibPage /></>} />
         <Route path="/crypto/:id" element={<><Header /><CryptoInfo /></>} />
+        <Route path="/virement/:compteId" element={<Virement />} />
+
 
 
 
