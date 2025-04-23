@@ -1,60 +1,93 @@
+/* Fond d’écran avec opacité à 20% uniquement */
+.auth-background {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Prend toute la hauteur de l'écran */
+  position: relative;
+}
+
+/* Fond d’écran avec opacité à 20% uniquement */
+.auth-background::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("../assets/wallpaper.png");
+  background-size: cover;
+  background-position: center;
+  opacity: 0.2;
+  z-index: -1;
+}
+
+/* Conteneur global avec z-index pour le placer au-dessus du fond */
+.auth-container {
+  position: relative;
+  z-index: 1;
+}
+
+/* Bloc centré avec fond blanc */
 .full-height {
-    max-width: 400px;
-    margin: 200px auto;
-    text-align: center;
-    font-family: Arial, sans-serif;
-  }
+  width: 100%;
+  max-width: 400px;
+  padding: 30px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
 
-  .auth-link {
-    margin-top: 10px;
-    color: #005fa3;
-    cursor: pointer;
-    font-size: 0.95rem;
-    text-decoration: underline;
-  }
-  
-  
-  .auth-logo {
-    width: 80px;
-    margin-bottom: 30px;
-  }
-  
-  .auth-form{
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .auth-form input {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .auth-form button {
-    background-color: #005fa3;
-    color: white;
-    padding: 12px;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: bold;
-  }
-  
-  .auth-form button:hover {
-    background-color: #00457a;
-  }
-  
-  .error-msg {
-    color: red;
-    font-size: 0.9em;
-  }
-  
-  .success-msg {
-    color: green;
-    font-size: 0.9em;
-    margin-top: 5px;
-  }
-  
+/* Logo */
+.auth-logo {
+  width: 80px;
+  margin-bottom: 30px;
+}
 
-  
+/* Formulaire */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.auth-form input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: white;
+  color: #333;
+}
+
+.auth-form button {
+  background-color: #005fa3;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.auth-form button:hover {
+  background-color: #00457a;
+}
+
+/* Liens + messages */
+.auth-link {
+  margin-top: 10px;
+  color: #005fa3;
+  cursor: pointer;
+  font-size: 0.95rem;
+  text-decoration: underline;
+}
+
+.error-msg {
+  color: red;
+  font-size: 0.9em;
+}
+
+.success-msg {
+  color: green;
+  font-size: 0.9em;
+  margin-top: 5px;
+}
