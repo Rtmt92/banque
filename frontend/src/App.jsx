@@ -18,12 +18,12 @@ const App = () => {
     <Router>
       <Routes>
         {/* Routes sans sidebar */}
-        <Route path="/" element={<><Header /><Login /></>} />
-        <Route path="/register" element={<><Header /><Register /></>} />
-        <Route path="/home" element={<><Header /><Home /></>} />
+        <Route path="/" element={<><Login /></>} />
+        <Route path="/register" element={<><Register /></>} />
+        <Route path="/home" element={<><Home /></>} />
         <Route path="/wallet" element={<Layout><Wallet /></Layout>} />
-        <Route path="/rib" element={<><Header /><RibPage /></>} />
-        <Route path="/crypto/:id" element={<><Header /><CryptoInfo /></>} />
+        <Route path="/rib" element={<><RibPage /></>} />
+        <Route path="/crypto/:id" element={<><CryptoInfo /></>} />
         <Route path="/virement/:compteId" element={<Virement />} />
         <Route path="/profile" element={<Layout><Profile /></Layout>} />
         <Route path="/historique/:compteId" element={<Historique />} />

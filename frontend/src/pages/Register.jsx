@@ -33,21 +33,36 @@ const Register = () => {
   };
 
   return (
-    <div className="auth-container full-height">
-      <div>
+    <div className="auth-background">
+      <div className="auth-container full-height">
         <img src={logo} alt="logo" className="auth-logo" />
         <form className="auth-form" onSubmit={handleRegister}>
-          <input type="text" placeholder="Nom" value={nom} onChange={(e) => setNom(e.target.value)} />
-          <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-          <input type="password" placeholder="Mot de passe" value={motDePasse} onChange={(e) => setMotDePasse(e.target.value)} />
+          <input
+            type="text"
+            placeholder="Nom"
+            value={nom}
+            onChange={(e) => setNom(e.target.value)}
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Mot de passe"
+            value={motDePasse}
+            onChange={(e) => setMotDePasse(e.target.value)}
+          />
           <button type="submit">S'inscrire</button>
           {error && <p className="error-msg">{error}</p>}
           {success && <p className="success-msg">{success}</p>}
         </form>
 
         <p className="auth-link">
-        <Link to="/">Déjà inscrit ? Connexion</Link>
-            </p>
+          <Link to="/">Déjà inscrit ? Connexion</Link>
+        </p>
       </div>
     </div>
   );

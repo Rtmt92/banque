@@ -8,7 +8,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [motDePasse, setMotDePasse] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate(); // ✅ ici
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -21,34 +21,36 @@ const Login = () => {
       });
 
       localStorage.setItem("token", res.data.token);
-      navigate("/dashboard"); 
+      navigate("/dashboard");
     } catch (err) {
       setError(err.response?.data?.message || "Erreur serveur");
     }
   };
 
   return (
-    <div className="auth-container full-height">
-      <img src={logo} alt="logo" className="auth-logo" />
-      <form className="auth-form" onSubmit={handleLogin}>
-        <input
-          type="text"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Mot de passe"
-          value={motDePasse}
-          onChange={(e) => setMotDePasse(e.target.value)}
-        />
-        <button type="submit">Me connecter</button>
-        <p className="auth-link">
-          <Link to="/register">Première connexion ? Inscription</Link>
-        </p>
-        {error && <p className="error-msg">{error}</p>}
-      </form>
+    <div className="auth-background">
+      <div className="auth-container full-height">
+        <img src={logo} alt="logo" className="auth-logo" />
+        <form className="auth-form" onSubmit={handleLogin}>
+          <input
+            type="text"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Mot de passe"
+            value={motDePasse}
+            onChange={(e) => setMotDePasse(e.target.value)}
+          />
+          <button type="submit">Me connecter</button>
+          <p className="auth-link">
+            <Link to="/register">Première connexion ? Inscription</Link>
+          </p>
+          {error && <p className="error-msg">{error}</p>}
+        </form>
+      </div>
     </div>
   );
 };
