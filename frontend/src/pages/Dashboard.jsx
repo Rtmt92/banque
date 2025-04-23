@@ -10,31 +10,39 @@ import axios from "axios";
 const Home = () => {
   const navigate = useNavigate();
   const [comptes, setComptes] = useState([]);
+  const [transactions, setTransactions] = useState({});
   const [crypto, setCrypto] = useState(null);
 
   useEffect(() => {
     const fetchCompte = async () => {
       try {
         const token = localStorage.getItem("token");
-        if (!token) {
-          console.error("Aucun token trouvé");
-          return;
-        }
+        if (!token) return console.error("Aucun token trouvé");
 
         const decoded = jwtDecode(token);
         const userId = decoded.id;
 
         const res = await axios.get(`http://localhost:5000/api/comptes/utilisateur/${userId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
-        
 
-        setComptes(res.data);
+        const comptesData = res.data;
+        setComptes(comptesData);
+
+        // Fetch transactions for each account
+        const txMap = {};
+        await Promise.all(
+          comptesData.map(async (compte) => {
+            const txRes = await axios.get(`http://localhost:5000/api/transactions/compte/${compte.id}`, {
+              headers: { Authorization: `Bearer ${token}` },
+            });
+            txMap[compte.id] = txRes.data;
+          })
+        );
+        setTransactions(txMap);
       } catch (err) {
-        console.error("Erreur lors de la récupération du compte :", err.response?.data || err.message);
-        setComptes([]); // en cas d'erreur, reset les comptes
+        console.error("Erreur lors de la récupération des comptes ou transactions :", err.response?.data || err.message);
+        setComptes([]);
       }
     };
 
@@ -73,39 +81,52 @@ const Home = () => {
       ) : (
         comptes.map((compte, index) => (
           <div key={index} className="account-section">
-            <h3>{compte.type_compte}</h3>
+            <h3 style={{ color: "#004aad" }}>{compte.type_compte}</h3>
             <div className="balance-container">
               <table style={{ width: "100%", borderCollapse: "collapse" }}>
                 <tbody>
                   <tr>
-                    <td
-                      style={{
-                        padding: "10px 0",
-                        fontSize: "1.5rem",
-                        borderBottom: "1px solid #ccc",
-                      }}
-                    >
+                    <td style={{ padding: "10px 0", fontSize: "1.5rem", borderBottom: "1px solid #ccc" }}>
                       Mon solde
                     </td>
-                    <td
-                      style={{
-                        textAlign: "right",
-                        fontSize: "2rem",
-                        fontWeight: "bold",
-                        borderBottom: "1px solid #ccc",
-                      }}
-                    >
-                      {`${compte.solde} €`}
+                    <td style={{ textAlign: "right", fontSize: "2rem", fontWeight: "bold", borderBottom: "1px solid #ccc" }}>
+                      {`${Number(compte.solde).toFixed(2)} €`}
                     </td>
                   </tr>
                   <tr>
                     <td colSpan="2" style={{ padding: "10px 0", fontSize: "1rem" }}>
                       <div className="transaction-history">
-                        <p>Historique des transactions</p>
-                        <p>Restaurant</p>
-                        <p style={{ textAlign: "right" }}>208€</p>
-                        <p>Restaurant</p>
-                        <p style={{ textAlign: "right" }}>208€</p>
+                        <p style={{ fontWeight: "bold", marginBottom: "10px" }}>Historique des transactions</p>
+                        {transactions[compte.id] && transactions[compte.id].length > 0 ? (
+                          transactions[compte.id].map((tx, i) => {
+                            const isSent = tx.compte_source_id === compte.id;
+                            const icon = isSent ? "📤" : "📥";
+                            const color = isSent ? "crimson" : "green";
+                            const message = isSent
+                              ? `Envoyé ${Number(tx.montant).toFixed(2)}€ à compte ${tx.compte_dest_id}`
+                              : `Reçu ${Number(tx.montant).toFixed(2)}€ de compte ${tx.compte_source_id}`;
+                            return (
+                              <div
+                                key={i}
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  marginBottom: "6px",
+                                  alignItems: "center",
+                                  fontSize: "0.95rem",
+                                  color,
+                                }}
+                              >
+                                <span>{icon} {message}</span>
+                                <span style={{ fontSize: "0.8rem", color: "#555" }}>
+                                  {new Date(tx.date_transaction).toLocaleDateString()}
+                                </span>
+                              </div>
+                            );
+                          })
+                        ) : (
+                          <p style={{ color: "#999", fontStyle: "italic" }}>Aucune transaction</p>
+                        )}
                       </div>
                     </td>
                   </tr>
@@ -114,27 +135,15 @@ const Home = () => {
             </div>
 
             <div className="actions-section">
-              <div
-                className="action-item"
-                onClick={() => navigate("/virement")}
-                style={{ cursor: "pointer" }}
-              >
+              <div className="action-item" onClick={() => navigate("/virement")} style={{ cursor: "pointer" }}>
                 <img src={transaction} alt="Effectuer un virement" />
                 <p>Effectuer un virement</p>
               </div>
-              <div
-                className="action-item"
-                onClick={() => navigate("/historique")}
-                style={{ cursor: "pointer" }}
-              >
+              <div className="action-item" onClick={() => navigate("/historique")} style={{ cursor: "pointer" }}>
                 <img src={history} alt="Historique" />
                 <p>L'historique</p>
               </div>
-              <div
-                className="action-item"
-                onClick={() => navigate("/rib")}
-                style={{ cursor: "pointer" }}
-              >
+              <div className="action-item" onClick={() => navigate("/rib")} style={{ cursor: "pointer" }}>
                 <img src={rib} alt="RIB" />
                 <p>Mon RIB</p>
               </div>

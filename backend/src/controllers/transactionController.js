@@ -75,3 +75,22 @@ export const deleteTransaction = async (req, res) => {
         res.status(500).json({ error: "Erreur serveur", details: err.message });
     }
 };
+
+
+export const getTransactionsByCompteId = async (req, res) => {
+    const { compteId } = req.params;
+  
+    try {
+      const [rows] = await db.query(`
+        SELECT t.id, t.compte_source_id, t.compte_dest_id, t.montant, t.date_transaction, t.type_transaction
+        FROM Transaction t
+        WHERE t.compte_source_id = ? OR t.compte_dest_id = ?
+        ORDER BY t.date_transaction DESC
+      `, [compteId, compteId]);
+  
+      res.json(rows);
+    } catch (err) {
+      res.status(500).json({ error: "Erreur serveur", details: err.message });
+    }
+  };
+  
