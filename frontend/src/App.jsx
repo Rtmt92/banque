@@ -10,6 +10,7 @@ import Wallet from "./pages/wallet";
 import RibPage from "./pages/Rib";
 import CryptoInfo from "./pages/CryptoInfo";
 import Virement from "./pages/Virement";
+import Profile from "./pages/profile";
 
 const App = () => {
   return (
@@ -23,6 +24,8 @@ const App = () => {
         <Route path="/rib" element={<><Header /><RibPage /></>} />
         <Route path="/crypto/:id" element={<><Header /><CryptoInfo /></>} />
         <Route path="/virement/:compteId" element={<Virement />} />
+        <Route path="/profile" element={<><Header /><Profile /></>} />
+
 
 
 
