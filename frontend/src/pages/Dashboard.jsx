@@ -114,8 +114,8 @@ const Home = () => {
                               <div key={i} style={{ color: op.type_operation === "achat" ? "green" : "crimson" }}>
                                 <span>
                                   {op.type_operation === "achat"
-                                    ? `🟢 Achat de ${op.montant}€ en ${op.cryptomonnaie}`
-                                    : `🔴 Vente de ${op.montant}€ en ${op.cryptomonnaie}`}
+                                    ? `🟢 Achat de ${op.montant} en ${op.cryptomonnaie}`
+                                    : `🔴 Vente de ${op.montant} en ${op.cryptomonnaie}`}
                                 </span>
                                 <span style={{ fontSize: "0.8rem", color: "#555", marginLeft: "1rem" }}>
                                   {new Date(op.date_operation).toLocaleDateString()}
