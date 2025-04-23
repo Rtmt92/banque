@@ -36,20 +36,21 @@ CREATE TABLE Cryptomonnaie (
 
 CREATE TABLE PortefeuilleCrypto (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    utilisateur_id INT NOT NULL,
+    compte_id INT NOT NULL,
     cryptomonnaie_id INT NOT NULL,
     quantité DECIMAL(15,8) NOT NULL,
-    FOREIGN KEY (utilisateur_id) REFERENCES Utilisateur(id) ON DELETE CASCADE,
+    FOREIGN KEY (compte_id) REFERENCES Compte(id) ON DELETE CASCADE,
     FOREIGN KEY (cryptomonnaie_id) REFERENCES Cryptomonnaie(id) ON DELETE CASCADE
 );
 
+
 CREATE TABLE AchatVente (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    utilisateur_id INT NOT NULL,
+    compte_id INT NOT NULL,
     cryptomonnaie_id INT NOT NULL,
     montant DECIMAL(15,2) NOT NULL,
     type_operation ENUM('achat', 'vente') NOT NULL,
     date_operation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (utilisateur_id) REFERENCES Utilisateur(id) ON DELETE CASCADE,
+    FOREIGN KEY (compte_id) REFERENCES Compte(id) ON DELETE CASCADE,
     FOREIGN KEY (cryptomonnaie_id) REFERENCES Cryptomonnaie(id) ON DELETE CASCADE
 );

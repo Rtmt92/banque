@@ -3,10 +3,10 @@ import db from "../config/db.js";
 export const getAllAchatsVentes = async (req, res) => {
     try {
         const [rows] = await db.query(`
-            SELECT av.id, av.utilisateur_id, u.nom AS utilisateur, av.cryptomonnaie_id, c.nom AS cryptomonnaie, 
+            SELECT av.id, av.compte_id, cp.type_compte AS compte, av.cryptomonnaie_id, c.nom AS cryptomonnaie, 
                    av.montant, av.type_operation, av.date_operation
             FROM AchatVente av
-            JOIN Utilisateur u ON av.utilisateur_id = u.id
+            JOIN Compte cp ON av.compte_id = cp.id
             JOIN Cryptomonnaie c ON av.cryptomonnaie_id = c.id
         `);
         res.json(rows);
@@ -19,10 +19,10 @@ export const getAchatVenteById = async (req, res) => {
     const { id } = req.params;
     try {
         const [rows] = await db.query(`
-            SELECT av.id, av.utilisateur_id, u.nom AS utilisateur, av.cryptomonnaie_id, c.nom AS cryptomonnaie, 
+            SELECT av.id, av.compte_id, cp.type_compte AS compte, av.cryptomonnaie_id, c.nom AS cryptomonnaie, 
                    av.montant, av.type_operation, av.date_operation
             FROM AchatVente av
-            JOIN Utilisateur u ON av.utilisateur_id = u.id
+            JOIN Compte cp ON av.compte_id = cp.id
             JOIN Cryptomonnaie c ON av.cryptomonnaie_id = c.id
             WHERE av.id = ?
         `, [id]);
@@ -34,17 +34,17 @@ export const getAchatVenteById = async (req, res) => {
 };
 
 export const createAchatVente = async (req, res) => {
-    const { utilisateur_id, cryptomonnaie_id, montant, type_operation } = req.body;
+    const { compte_id, cryptomonnaie_id, montant, type_operation } = req.body;
     try {
-        if (!utilisateur_id || !cryptomonnaie_id || !montant || !type_operation) {
+        if (!compte_id || !cryptomonnaie_id || !montant || !type_operation) {
             return res.status(400).json({ message: "Tous les champs sont obligatoires" });
         }
 
         const [result] = await db.query(
-            "INSERT INTO AchatVente (utilisateur_id, cryptomonnaie_id, montant, type_operation) VALUES (?, ?, ?, ?)",
-            [utilisateur_id, cryptomonnaie_id, montant, type_operation]
+            "INSERT INTO AchatVente (compte_id, cryptomonnaie_id, montant, type_operation) VALUES (?, ?, ?, ?)",
+            [compte_id, cryptomonnaie_id, montant, type_operation]
         );
-        res.status(201).json({ id: result.insertId, utilisateur_id, cryptomonnaie_id, montant, type_operation });
+        res.status(201).json({ id: result.insertId, compte_id, cryptomonnaie_id, montant, type_operation });
     } catch (err) {
         res.status(500).json({ error: "Erreur serveur", details: err.message });
     }
@@ -64,12 +64,10 @@ export const updateAchatVente = async (req, res) => {
     const { id } = req.params;
     const { montant, type_operation } = req.body;
     try {
-        
         if (!["achat", "vente"].includes(type_operation)) {
             return res.status(400).json({ message: "Type d'opération invalide. Utilisez 'achat' ou 'vente'." });
         }
 
-        
         await db.query(
             "UPDATE AchatVente SET montant = ?, type_operation = ? WHERE id = ?", 
             [montant, type_operation, id]
@@ -80,4 +78,3 @@ export const updateAchatVente = async (req, res) => {
         res.status(500).json({ error: "Erreur serveur", details: err.message });
     }
 };
-

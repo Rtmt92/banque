@@ -25,7 +25,7 @@ const App = () => {
         <Route path="/rib" element={<><Header /><RibPage /></>} />
         <Route path="/crypto/:id" element={<><Header /><CryptoInfo /></>} />
         <Route path="/virement/:compteId" element={<Virement />} />
-        <Route path="/profile" element={<><Header /><Profile /></>} />
+        <Route path="/profile" element={<Layout><Profile /></Layout>} />
         <Route path="/historique/:compteId" element={<Historique />} />
 
 
