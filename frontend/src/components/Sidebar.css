@@ -1,49 +1,84 @@
 .sidebar {
-    height: 100vh;
-    background: #005fa3;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    padding-top: 10px;
-    transition: width 0.3s;
-    border-radius: 0 20px 20px 0; /* coin droit uniquement */
-  }
-  
-  .sidebar.open {
-    width: 200px;
-  }
-  
-  .sidebar.closed {
-    width: 60px;
-  }
-  
-  .sidebar .toggle {
-    text-align: center;
-    cursor: pointer;
-    padding: 10px;
-    font-size: 1.3rem;
-  }
-  
-  .sidebar .menu {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding: 20px;
-  }
-  
-  .sidebar .menu a,
-  .sidebar .menu div {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: white;
-    text-decoration: none;
-    cursor: pointer;
-  }
-  
-  .sidebar .logo {
-    font-size: 2rem;
-    text-align: center;
-    margin-bottom: 30px;
-  }
-  
+  height: 100vh;
+  background: #ffffff;
+  color: #000000;
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s ease;
+  border-radius: 0;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.sidebar.open {
+  width: 200px;
+}
+
+.sidebar.closed {
+  width: 60px;
+}
+
+/* Toggle (burger menu) */
+.sidebar .toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  font-size: 1.5rem;
+  color: #000;
+  cursor: pointer;
+}
+
+/* Logo container */
+.sidebar .logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 10px auto;
+  transition: all 0.3s ease;
+}
+
+/* Logo image */
+.sidebar .logo img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  transition: all 0.3s ease;
+}
+
+/* Logo réduit quand la sidebar est fermée */
+.sidebar.closed .logo img {
+  width: 35px;
+  height: 35px;
+  margin-top: 0;
+}
+
+/* Menu */
+.sidebar .menu {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px 10px;
+}
+
+/* Liens du menu */
+.sidebar .menu a,
+.sidebar .menu div {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #000;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 8px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+/* Hover sur les liens */
+.sidebar .menu a:hover,
+.sidebar .menu div:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  transform: translateX(4px);
+}
