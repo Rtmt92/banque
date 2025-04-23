@@ -4,12 +4,13 @@ import axios from "axios";
 import "../styles/virement.css";
 
 const Virement = () => {
-  const { compteId } = useParams(); // récupère l'id dans l'URL
+  const { compteId } = useParams();
   const navigate = useNavigate();
 
-  const [montant, setMontant] = useState("");
-  const [destinataire, setDestinataire] = useState("");
+  const [compteSource, setCompteSource] = useState(null);
   const [comptes, setComptes] = useState([]);
+  const [destinataire, setDestinataire] = useState("");
+  const [montant, setMontant] = useState("");
   const [message, setMessage] = useState("");
 
   useEffect(() => {
@@ -19,8 +20,13 @@ const Virement = () => {
         const res = await axios.get("http://localhost:5000/api/comptes", {
           headers: { Authorization: `Bearer ${token}` },
         });
-        const autresComptes = res.data.filter((c) => c.id !== parseInt(compteId));
-        setComptes(autresComptes);
+
+        const comptesData = res.data;
+        const source = comptesData.find((c) => c.id === parseInt(compteId));
+        const autres = comptesData.filter((c) => c.id !== parseInt(compteId));
+
+        setCompteSource(source);
+        setComptes(autres);
       } catch (err) {
         console.error("Erreur récupération comptes :", err);
       }
@@ -62,7 +68,22 @@ const Virement = () => {
 
   return (
     <div className="virement-container">
-      <h2>Virement depuis le compte #{compteId}</h2>
+      <h2>Effectuer un virement</h2>
+
+      {compteSource && (
+        <div style={{
+          padding: "1rem",
+          border: "1px solid #d1d5db",
+          borderRadius: "8px",
+          marginBottom: "1.5rem",
+          backgroundColor: "#f0f4ff"
+        }}>
+          <h4 style={{ marginBottom: "0.5rem", color: "#1e3a8a" }}>
+            Compte source : <strong>{compteSource.type_compte}</strong>
+          </h4>
+          <p>Solde disponible : <strong>{parseFloat(compteSource.solde).toFixed(2)} €</strong></p>
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="virement-form">
         <label>Montant (€) :</label>
@@ -83,7 +104,7 @@ const Virement = () => {
           <option value="">-- Sélectionner un compte --</option>
           {comptes.map((c) => (
             <option key={c.id} value={c.id}>
-              {c.type_compte} (solde: {parseFloat(c.solde).toFixed(2)} €)
+                {c.nom_utilisateur} — {c.type_compte}
             </option>
           ))}
         </select>

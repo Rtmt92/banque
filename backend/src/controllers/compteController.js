@@ -2,13 +2,17 @@ import db from "../config/db.js";
 
 export const getAllComptes = async (req, res) => {
     try {
-        const [rows] = await db.query("SELECT * FROM Compte");
-        res.json(rows);
+      const [rows] = await db.query(`
+        SELECT c.*, u.nom AS nom_utilisateur
+        FROM Compte c
+        JOIN Utilisateur u ON c.utilisateur_id = u.id
+      `);
+      res.json(rows);
     } catch (err) {
-        res.status(500).json({ error: "Erreur serveur", details: err.message });
+      res.status(500).json({ error: "Erreur serveur", details: err.message });
     }
-};
-
+  };
+  
 export const getCompteById = async (req, res) => {
     const { id } = req.params;
     try {

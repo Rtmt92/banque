@@ -37,10 +37,11 @@ const Profile = () => {
     e.preventDefault();
     try {
       await axios.put(
-        `http://localhost:5000/api/users/motdepasse/${userId}`,
+        `http://localhost:5000/api/utilisateurs/motdepasse/${userId}`, 
         { nouveau_mot_de_passe: passwordForm.mot_de_passe },
         { headers: { Authorization: `Bearer ${token}` } }
       );
+      
       alert("Mot de passe mis à jour !");
       setPasswordForm({ mot_de_passe: "" });
       setShowPasswordForm(false);
