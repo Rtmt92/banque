@@ -1,0 +1,99 @@
+/* Container général */
+.historique-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    font-family: 'Segoe UI', sans-serif;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  }
+  
+  /* Bouton de retour */
+  .back-button {
+    background: none;
+    border: none;
+    color: #007bff;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-bottom: 20px;
+  }
+  .back-button:hover {
+    text-decoration: underline;
+  }
+  
+  /* Titre de la page */
+  .historique-heading {
+    font-size: 1.8rem;
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+  }
+  
+  /* Message vide ou chargement */
+  .historique-empty {
+    text-align: center;
+    color: #999;
+    font-style: italic;
+    margin-top: 40px;
+  }
+  
+  /* Container de cartes */
+  .cards-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  /* Carte de transaction */
+  .tx-card {
+    border-radius: 8px;
+    overflow: hidden;
+    border-left: 5px solid;
+    background: #f7f9fc;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .tx-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  }
+  
+  /* Bordure colorée selon type */
+  .tx-card.sent {
+    border-color: #dc3545;
+  }
+  .tx-card.received {
+    border-color: #28a745;
+  }
+  
+  /* Header de la carte */
+  .tx-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #eef3f8;
+    padding: 10px 15px;
+  }
+  .tx-icon {
+    font-size: 1.4rem;
+  }
+  .tx-date {
+    font-size: 0.9rem;
+    color: #555;
+  }
+  
+  /* Corps de la carte */
+  .tx-body {
+    padding: 15px;
+  }
+  .tx-amount {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin: 0 0 8px;
+  }
+  .tx-desc {
+    margin: 0;
+    color: #666;
+    font-size: 0.95rem;
+  }
+  

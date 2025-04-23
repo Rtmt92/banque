@@ -36,8 +36,9 @@ const Profile = () => {
   const handlePasswordUpdate = async (e) => {
     e.preventDefault();
     try {
+      // Utilisation de l'ID de l'utilisateur pour la mise à jour du mot de passe
       await axios.put(
-        `http://localhost:5000/api/users/motdepasse/${userId}`,
+        `http://localhost:5000/api/users/motdepasse/${userId}`, // L'ID de l'utilisateur est bien ajouté ici
         { nouveau_mot_de_passe: passwordForm.mot_de_passe },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -45,7 +46,7 @@ const Profile = () => {
       setPasswordForm({ mot_de_passe: "" });
       setShowPasswordForm(false);
     } catch (err) {
-      console.error("Erreur mise à jour mot de passe :", err);
+      console.error("Erreur mise à jour mot de passe :", err.response?.data || err.message);
       alert("Erreur lors de la mise à jour du mot de passe.");
     }
   };

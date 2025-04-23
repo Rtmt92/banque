@@ -53,10 +53,7 @@ export const deleteUser = async (req, res) => {
     }
 };
 
-
-
-
-
+// Mise à jour du mot de passe
 export const updateUserPassword = async (req, res) => {
   const { id } = req.params;
   const { nouveau_mot_de_passe } = req.body;
@@ -76,4 +73,3 @@ export const updateUserPassword = async (req, res) => {
     res.status(500).json({ error: "Erreur serveur", details: err.message });
   }
 };
-
