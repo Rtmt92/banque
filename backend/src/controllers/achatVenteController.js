@@ -78,3 +78,20 @@ export const updateAchatVente = async (req, res) => {
         res.status(500).json({ error: "Erreur serveur", details: err.message });
     }
 };
+
+export const getAchatVenteByCompte = async (req, res) => {
+    const { compteId } = req.params;
+    try {
+      const [rows] = await db.query(`
+        SELECT av.*, c.nom AS cryptomonnaie 
+        FROM AchatVente av
+        JOIN Cryptomonnaie c ON av.cryptomonnaie_id = c.id
+        WHERE av.compte_id = ?
+        ORDER BY av.date_operation DESC
+      `, [compteId]);
+      res.json(rows);
+    } catch (err) {
+      res.status(500).json({ message: "Erreur serveur", details: err.message });
+    }
+  };
+  

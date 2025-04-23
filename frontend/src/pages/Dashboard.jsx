@@ -11,6 +11,7 @@ const Home = () => {
   const navigate = useNavigate();
   const [comptes, setComptes] = useState([]);
   const [transactions, setTransactions] = useState({});
+  const [achatsVentes, setAchatsVentes] = useState({});
   const [crypto, setCrypto] = useState(null);
 
   useEffect(() => {
@@ -29,17 +30,27 @@ const Home = () => {
         const comptesData = res.data;
         setComptes(comptesData);
 
-        // Fetch transactions for each account
         const txMap = {};
+        const avMap = {};
+
         await Promise.all(
           comptesData.map(async (compte) => {
-            const txRes = await axios.get(`http://localhost:5000/api/transactions/compte/${compte.id}`, {
-              headers: { Authorization: `Bearer ${token}` },
-            });
-            txMap[compte.id] = txRes.data;
+            if (compte.type_compte === "crypto") {
+              const avRes = await axios.get(`http://localhost:5000/api/achats-ventes/compte/${compte.id}`, {
+                headers: { Authorization: `Bearer ${token}` },
+              });
+              avMap[compte.id] = avRes.data;
+            } else {
+              const txRes = await axios.get(`http://localhost:5000/api/transactions/compte/${compte.id}`, {
+                headers: { Authorization: `Bearer ${token}` },
+              });
+              txMap[compte.id] = txRes.data;
+            }
           })
         );
+
         setTransactions(txMap);
+        setAchatsVentes(avMap);
       } catch (err) {
         console.error("Erreur lors de la récupération des comptes ou transactions :", err.response?.data || err.message);
         setComptes([]);
@@ -96,36 +107,55 @@ const Home = () => {
                   <tr>
                     <td colSpan="2" style={{ padding: "10px 0", fontSize: "1rem" }}>
                       <div className="transaction-history">
-                        <p style={{ fontWeight: "bold", marginBottom: "10px" }}>Historique des transactions</p>
-                        {transactions[compte.id] && transactions[compte.id].length > 0 ? (
-                          transactions[compte.id].map((tx, i) => {
-                            const isSent = tx.compte_source_id === compte.id;
-                            const icon = isSent ? "📤" : "📥";
-                            const color = isSent ? "crimson" : "green";
-                            const message = isSent
-                              ? `Envoyé ${Number(tx.montant).toFixed(2)}€ à compte ${tx.compte_dest_id}`
-                              : `Reçu ${Number(tx.montant).toFixed(2)}€ de compte ${tx.compte_source_id}`;
-                            return (
-                              <div
-                                key={i}
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                  marginBottom: "6px",
-                                  alignItems: "center",
-                                  fontSize: "0.95rem",
-                                  color,
-                                }}
-                              >
-                                <span>{icon} {message}</span>
-                                <span style={{ fontSize: "0.8rem", color: "#555" }}>
-                                  {new Date(tx.date_transaction).toLocaleDateString()}
+                        <p style={{ fontWeight: "bold", marginBottom: "10px" }}>Historique</p>
+                        {compte.type_compte === "crypto" ? (
+                          achatsVentes[compte.id] && achatsVentes[compte.id].length > 0 ? (
+                            achatsVentes[compte.id].map((op, i) => (
+                              <div key={i} style={{ color: op.type_operation === "achat" ? "green" : "crimson" }}>
+                                <span>
+                                  {op.type_operation === "achat"
+                                    ? `🟢 Achat de ${op.montant}€ en ${op.cryptomonnaie}`
+                                    : `🔴 Vente de ${op.montant}€ en ${op.cryptomonnaie}`}
+                                </span>
+                                <span style={{ fontSize: "0.8rem", color: "#555", marginLeft: "1rem" }}>
+                                  {new Date(op.date_operation).toLocaleDateString()}
                                 </span>
                               </div>
-                            );
-                          })
+                            ))
+                          ) : (
+                            <p style={{ color: "#999", fontStyle: "italic" }}>Aucune opération</p>
+                          )
                         ) : (
-                          <p style={{ color: "#999", fontStyle: "italic" }}>Aucune transaction</p>
+                          transactions[compte.id] && transactions[compte.id].length > 0 ? (
+                            transactions[compte.id].map((tx, i) => {
+                              const isSent = tx.compte_source_id === compte.id;
+                              const icon = isSent ? "📤" : "📥";
+                              const color = isSent ? "crimson" : "green";
+                              const message = isSent
+                                ? `Envoyé ${Number(tx.montant).toFixed(2)}€ à compte ${tx.compte_dest_id}`
+                                : `Reçu ${Number(tx.montant).toFixed(2)}€ de compte ${tx.compte_source_id}`;
+                              return (
+                                <div
+                                  key={i}
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    marginBottom: "6px",
+                                    alignItems: "center",
+                                    fontSize: "0.95rem",
+                                    color,
+                                  }}
+                                >
+                                  <span>{icon} {message}</span>
+                                  <span style={{ fontSize: "0.8rem", color: "#555" }}>
+                                    {new Date(tx.date_transaction).toLocaleDateString()}
+                                  </span>
+                                </div>
+                              );
+                            })
+                          ) : (
+                            <p style={{ color: "#999", fontStyle: "italic" }}>Aucune transaction</p>
+                          )
                         )}
                       </div>
                     </td>
@@ -135,18 +165,27 @@ const Home = () => {
             </div>
 
             <div className="actions-section">
-              <div className="action-item" onClick={() => navigate(`/virement/${compte.id}`)}  style={{ cursor: "pointer" }}>
-                <img src={transaction} alt="Effectuer un virement" />
-                <p>Effectuer un virement</p>
-              </div>
-              <div className="action-item" onClick={() => navigate(`/historique/${compte.id}`)} style={{ cursor: "pointer" }}>
-                <img src={history} alt="Historique" />
-                <p>L'historique</p>
-              </div>
-              <div className="action-item" onClick={() => navigate("/rib")} style={{ cursor: "pointer" }}>
-                <img src={rib} alt="RIB" />
-                <p>Mon RIB</p>
-              </div>
+              {compte.type_compte === "crypto" ? (
+                <div className="action-item" onClick={() => navigate(`/modifier-crypto/${compte.id}`)} style={{ cursor: "pointer" }}>
+                  <img src={transaction} alt="Gérer crypto" />
+                  <p>Gérer Crypto</p>
+                </div>
+              ) : (
+                <>
+                  <div className="action-item" onClick={() => navigate(`/virement/${compte.id}`)} style={{ cursor: "pointer" }}>
+                    <img src={transaction} alt="Effectuer un virement" />
+                    <p>Effectuer un virement</p>
+                  </div>
+                  <div className="action-item" onClick={() => navigate(`/historique/${compte.id}`)} style={{ cursor: "pointer" }}>
+                    <img src={history} alt="Historique" />
+                    <p>L'historique</p>
+                  </div>
+                  <div className="action-item" onClick={() => navigate("/rib")} style={{ cursor: "pointer" }}>
+                    <img src={rib} alt="RIB" />
+                    <p>Mon RIB</p>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         ))

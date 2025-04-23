@@ -1,0 +1,89 @@
+.modifier-crypto-container {
+    max-width: 600px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background-color: #f0f4f8;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: "Segoe UI", sans-serif;
+  }
+  
+  .modifier-crypto-container h2 {
+    color: #1e3a8a;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .crypto-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+  
+  .crypto-form label {
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .crypto-form select,
+  .crypto-form input {
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+  
+  .crypto-form input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+  
+  .btn-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+  }
+  
+  .btn-action {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-action.achat {
+    background-color: #2563eb;
+  }
+  .btn-action.achat:hover {
+    background-color: #1e40af;
+  }
+  
+  .btn-action.vente {
+    background-color: #16a34a;
+  }
+  .btn-action.vente:hover {
+    background-color: #15803d;
+  }
+  
+  .btn-action.retour {
+    background-color: #6b7280;
+  }
+  .btn-action.retour:hover {
+    background-color: #4b5563;
+  }
+  
+  .message {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-weight: 600;
+  }
+  .message.success {
+    color: green;
+  }
+  .message.error {
+    color: crimson;
+  }
+  
