@@ -1,13 +1,12 @@
 import { useNavigate } from "react-router-dom";
 
-const CryptoCard = ({ name, price }) => {
+const CryptoCard = ({ name, price, logo_url }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
     navigate(`/crypto/${name}`);
   };
 
-  // Génère une variation aléatoire entre -5% et +5%
   const variation = (Math.random() * 10 - 5).toFixed(2);
   const isUp = variation > 0;
   const arrow = isUp ? "⬆️" : variation < 0 ? "⬇️" : "⏸️";
@@ -15,10 +14,21 @@ const CryptoCard = ({ name, price }) => {
 
   return (
     <div className="crypto-card" onClick={handleClick}>
-      <span>{name}</span>
-      <span style={{ color: variationColor }}>
+      {logo_url && (
+        <img
+          src={logo_url}
+          alt={`${name} logo`}
+          className="crypto-logo"
+          onError={(e) => (e.target.style.display = "none")}
+        />
+      )}
+
+      <span className="crypto-name">{name}</span>
+
+      <span className="crypto-price" style={{ color: variationColor }}>
         {arrow} {variation}%
       </span>
+
       <span>Prix : {Number(price).toFixed(2)} $</span>
     </div>
   );

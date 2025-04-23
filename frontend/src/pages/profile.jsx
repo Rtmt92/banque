@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import "../styles/profile.css";
+import { FaPiggyBank, FaWallet, FaBitcoin } from "react-icons/fa";
 
 const Profile = () => {
   const [comptes, setComptes] = useState([]);
@@ -36,13 +37,11 @@ const Profile = () => {
   const handlePasswordUpdate = async (e) => {
     e.preventDefault();
     try {
-      // Utilisation de l'ID de l'utilisateur pour la mise à jour du mot de passe
       await axios.put(
-        `http://localhost:5000/api/utilisateurs/motdepasse/${userId}`, 
+        `http://localhost:5000/api/utilisateurs/motdepasse/${userId}`,
         { nouveau_mot_de_passe: passwordForm.mot_de_passe },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      
       alert("Mot de passe mis à jour !");
       setPasswordForm({ mot_de_passe: "" });
       setShowPasswordForm(false);
@@ -77,6 +76,12 @@ const Profile = () => {
     }
   };
 
+  const getShadowClass = (solde) => {
+    if (solde > 10000) return "shadow-strong";
+    if (solde > 1000) return "shadow-medium";
+    return "shadow-light";
+  };
+
   return (
     <div className="profile-container">
       <h1 className="profile-title">Mon Profil</h1>
@@ -108,20 +113,24 @@ const Profile = () => {
 
       <h2 className="subtitle">Mes Comptes</h2>
       <div className="comptes-container">
-        {comptes.map((compte) => (
-          <div key={compte.id} className="compte-card">
-            <p>
-              <strong>Type :</strong> {compte.type_compte}
-            </p>
-            <p>
-              <strong>Solde :</strong> {compte.solde} €
-            </p>
-            <p>
-              <strong>Ouvert le :</strong>{" "}
-              {new Date(compte.date_ouverture).toLocaleDateString()}
-            </p>
-          </div>
-        ))}
+        {comptes.map((compte) => {
+          const icon =
+            compte.type_compte === "courant" ? <FaWallet className="icon" /> :
+            compte.type_compte === "epargne" ? <FaPiggyBank className="icon" /> :
+            compte.type_compte === "crypto" ? <FaBitcoin className="icon" /> :
+            null;
+
+          const shadowClass = getShadowClass(compte.solde);
+
+          return (
+            <div key={compte.id} className={`compte-card ${shadowClass}`}>
+              {icon}
+              <p><strong>Type :</strong> {compte.type_compte}</p>
+              <p><strong>Solde :</strong> {compte.solde} €</p>
+              <p><strong>Ouvert le :</strong> {new Date(compte.date_ouverture).toLocaleDateString()}</p>
+            </div>
+          );
+        })}
       </div>
 
       <h3 className="subtitle">Ajouter un Compte</h3>
