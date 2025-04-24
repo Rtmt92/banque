@@ -42,12 +42,12 @@ const Profile = () => {
         { nouveau_mot_de_passe: passwordForm.mot_de_passe },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      alert("Mot de passe mis à jour !");
+
       setPasswordForm({ mot_de_passe: "" });
       setShowPasswordForm(false);
     } catch (err) {
       console.error("Erreur mise à jour mot de passe :", err.response?.data || err.message);
-      alert("Erreur lors de la mise à jour du mot de passe.");
+
     }
   };
 
@@ -63,7 +63,7 @@ const Profile = () => {
         { utilisateur_id: userId, ...newCompte },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      alert("Compte ajouté !");
+
       setNewCompte({ type_compte: "courant", solde: 0 });
       const comptesRes = await axios.get(
         `http://localhost:5000/api/comptes/utilisateur/${userId}`,
@@ -72,7 +72,7 @@ const Profile = () => {
       setComptes(comptesRes.data);
     } catch (err) {
       console.error("Erreur ajout compte :", err);
-      alert("Erreur lors de l'ajout.");
+
     }
   };
 

@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import Header from "./components/Header";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
@@ -17,17 +16,11 @@ const App = () => {
     <Router>
       <Routes>
 
-        <Route path="/" element={<><Login /></>} />
-        <Route path="/register" element={<><Register /></>} />
-        <Route path="/wallet" element={<Layout><Wallet /></Layout>} />
-        <Route path="/rib" element={<><RibPage /></>} />
-        <Route path="/virement/:compteId" element={<Virement />} />
-        <Route path="/profile" element={<Layout><Profile /></Layout>} />
-        <Route path="/historique/:compteId" element={<Historique />} />
-        <Route path="/modifier-crypto/:compteId" element={<ModifierCrypto />} />
+        {/* 🔓 Routes publiques */}
+        <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
-
-
+        {/* 🔐 Routes protégées */}
         <Route
           path="/dashboard"
           element={
@@ -35,6 +28,72 @@ const App = () => {
               <Layout>
                 <Dashboard />
               </Layout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+        <Route
+          path="/wallet"
+          element={
+            isAuthenticated() ? (
+              <Layout>
+                <Wallet />
+              </Layout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+        <Route
+          path="/rib"
+          element={
+            isAuthenticated() ? (
+              <Layout>
+                <RibPage />
+              </Layout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+        <Route
+          path="/virement/:compteId"
+          element={
+            isAuthenticated() ? (
+              <Virement />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            isAuthenticated() ? (
+              <Layout>
+                <Profile />
+              </Layout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+        <Route
+          path="/historique/:compteId"
+          element={
+            isAuthenticated() ? (
+              <Historique />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+        <Route
+          path="/modifier-crypto/:compteId"
+          element={
+            isAuthenticated() ? (
+              <ModifierCrypto />
             ) : (
               <Navigate to="/" />
             )
