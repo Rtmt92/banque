@@ -10,6 +10,6 @@ const db = await mysql.createConnection({
     database: process.env.DB_NAME
 });
 
-console.log("✅ Connecté à la base de données MySQL");
+console.log(" Connecté à la base de données MySQL");
 
 export default db;

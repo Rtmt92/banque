@@ -16,7 +16,7 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        {/* Routes sans sidebar */}
+
         <Route path="/" element={<><Login /></>} />
         <Route path="/register" element={<><Register /></>} />
         <Route path="/wallet" element={<Layout><Wallet /></Layout>} />
@@ -28,7 +28,6 @@ const App = () => {
 
 
 
-        {/* Routes protégées */}
         <Route
           path="/dashboard"
           element={
