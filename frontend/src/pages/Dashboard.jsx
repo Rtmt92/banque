@@ -132,8 +132,8 @@ const Home = () => {
                               const icon = isSent ? "📤" : "📥";
                               const color = isSent ? "crimson" : "green";
                               const message = isSent
-                                ? `Envoyé ${Number(tx.montant).toFixed(2)}€ à compte ${tx.compte_dest_id}`
-                                : `Reçu ${Number(tx.montant).toFixed(2)}€ de compte ${tx.compte_source_id}`;
+                              ? `Envoyé ${Number(tx.montant).toFixed(2)}€ à ${tx.nom_dest} (compte ${tx.compte_dest_id})`
+                              : `Reçu ${Number(tx.montant).toFixed(2)}€ de ${tx.nom_source} (compte ${tx.compte_source_id})`;                                                     
                               return (
                                 <div
                                   key={i}

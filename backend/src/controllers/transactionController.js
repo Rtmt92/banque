@@ -82,11 +82,25 @@ export const getTransactionsByCompteId = async (req, res) => {
   
     try {
       const [rows] = await db.query(`
-        SELECT t.id, t.compte_source_id, t.compte_dest_id, t.montant, t.date_transaction, t.type_transaction
+        SELECT 
+          t.id, 
+          t.compte_source_id, 
+          t.compte_dest_id, 
+          t.montant, 
+          t.date_transaction, 
+          t.type_transaction,
+          us.nom AS nom_source,
+          ud.nom AS nom_dest
         FROM Transaction t
+        LEFT JOIN Compte cs ON t.compte_source_id = cs.id
+        LEFT JOIN Compte cd ON t.compte_dest_id = cd.id
+        LEFT JOIN Utilisateur us ON cs.utilisateur_id = us.id
+        LEFT JOIN Utilisateur ud ON cd.utilisateur_id = ud.id
         WHERE t.compte_source_id = ? OR t.compte_dest_id = ?
         ORDER BY t.date_transaction DESC
       `, [compteId, compteId]);
+      
+      
   
       res.json(rows);
     } catch (err) {
