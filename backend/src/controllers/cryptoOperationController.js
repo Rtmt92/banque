@@ -69,7 +69,7 @@ export const handleCryptoOperation = async (req, res) => {
       );
       
 
-    return res.json({ message: `✅ ${type_operation} réussie`, valeurTotale });
+    return res.json({ message: ` ${type_operation} réussie`, valeurTotale });
   } catch (err) {
     console.error("Erreur opération crypto :", err);
     res.status(500).json({ error: "Erreur serveur", details: err.message });

@@ -29,7 +29,7 @@ app.use(express.json());
 
 
 app.get("/", (req, res) => {
-    res.send("🚀 API en ligne !");
+    res.send("API en ligne !");
 });
 
 

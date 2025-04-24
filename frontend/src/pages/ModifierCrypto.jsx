@@ -47,11 +47,11 @@ const ModifierCrypto = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      setMessage("✅ Opération réussie");
+      setMessage(" Opération réussie");
       setTimeout(() => navigate("/dashboard"), 1500);
     } catch (err) {
-      console.error("❌ Erreur Axios :", err.response?.data || err.message);
-      setMessage("❌ Erreur lors de l'opération");
+      console.error(" Erreur Axios :", err.response?.data || err.message);
+      setMessage(" Erreur lors de l'opération");
     }
   };
   
