@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FaHome, FaUser, FaSignOutAlt, FaBars, } from "react-icons/fa";
 import { GiWallet } from "react-icons/gi";
 import { logout } from "../utils/auth";
-import logo from "../assets/logo.png"; // ligne à ajouter tout en haut
+import logo from "../assets/logo.png"; 
 
 import "./Sidebar.css";
 

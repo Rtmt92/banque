@@ -1,13 +1,11 @@
-/* Fond d’écran avec opacité à 20% uniquement */
 .auth-background {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh; /* Prend toute la hauteur de l'écran */
+  min-height: 100vh;
   position: relative;
 }
 
-/* Fond d’écran avec opacité à 20% uniquement */
 .auth-background::before {
   content: "";
   position: fixed;
@@ -19,13 +17,11 @@
   z-index: -1;
 }
 
-/* Conteneur global avec z-index pour le placer au-dessus du fond */
 .auth-container {
   position: relative;
   z-index: 1;
 }
 
-/* Bloc centré avec fond blanc */
 .full-height {
   width: 100%;
   max-width: 400px;
@@ -37,13 +33,11 @@
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
-/* Logo */
 .auth-logo {
   width: 80px;
   margin-bottom: 30px;
 }
 
-/* Formulaire */
 .auth-form {
   display: flex;
   flex-direction: column;
@@ -72,7 +66,6 @@
   background-color: #00457a;
 }
 
-/* Liens + messages */
 .auth-link {
   margin-top: 10px;
   color: #005fa3;

@@ -17,7 +17,6 @@ dotenv.config();
 
 const app = express();
 
-// Configuration des middlewares
 app.use(cors({
     origin: "http://localhost:3000",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
@@ -29,7 +28,6 @@ app.use(cors({
 app.use(express.json());
 
 
-// Route de test
 app.get("/", (req, res) => {
     res.send("🚀 API en ligne !");
 });
