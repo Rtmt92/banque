@@ -5,7 +5,6 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Layout from "./components/Layout";
 import { isAuthenticated } from "./utils/auth";
-import Home from "./pages/Home";
 import Wallet from "./pages/wallet";
 import RibPage from "./pages/Rib";
 import ModifierCrypto from "./pages/ModifierCrypto";
@@ -20,7 +19,6 @@ const App = () => {
         {/* Routes sans sidebar */}
         <Route path="/" element={<><Login /></>} />
         <Route path="/register" element={<><Register /></>} />
-        <Route path="/home" element={<><Home /></>} />
         <Route path="/wallet" element={<Layout><Wallet /></Layout>} />
         <Route path="/rib" element={<><RibPage /></>} />
         <Route path="/virement/:compteId" element={<Virement />} />

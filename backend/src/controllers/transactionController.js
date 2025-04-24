@@ -104,10 +104,8 @@ export const effectuerVirement = async (req, res) => {
   }
 
   try {
-    // Commencer une transaction MySQL
     await db.query("START TRANSACTION");
 
-    // Récupérer les soldes
     const [[source]] = await db.query("SELECT solde FROM Compte WHERE id = ?", [compte_source_id]);
     const [[dest]] = await db.query("SELECT solde FROM Compte WHERE id = ?", [compte_dest_id]);
 
@@ -121,18 +119,15 @@ export const effectuerVirement = async (req, res) => {
       return res.status(400).json({ message: "Solde insuffisant pour effectuer le virement." });
     }
 
-    // Mettre à jour les soldes
     await db.query("UPDATE Compte SET solde = solde - ? WHERE id = ?", [montant, compte_source_id]);
     await db.query("UPDATE Compte SET solde = solde + ? WHERE id = ?", [montant, compte_dest_id]);
 
-    // Insérer la transaction
     await db.query(
       `INSERT INTO Transaction (compte_source_id, compte_dest_id, montant, type_transaction, statut)
        VALUES (?, ?, ?, ?, 'validée')`,
       [compte_source_id, compte_dest_id, montant, type_transaction]
     );
 
-    // Valider la transaction MySQL
     await db.query("COMMIT");
 
     res.status(201).json({ message: "Virement effectué avec succès." });

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import "../styles/cryptoInfo.css"; // style associé
+import "../styles/cryptoInfo.css"; 
 
 const CryptoInfo = () => {
   const { id } = useParams();
@@ -18,14 +18,12 @@ const CryptoInfo = () => {
     cvv: "",
   });
   const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false); // Ajout pour gérer l'état de chargement
+  const [isLoading, setIsLoading] = useState(false); 
 
-  // Récupérer les données de la crypto (nom, prix actuel)
   useEffect(() => {
     const fetchCrypto = async () => {
-      setIsLoading(true); // Commence à charger les données
+      setIsLoading(true); 
       try {
-        // Vérifie si l'ID existe et construit l'URL correctement
         if (id) {
           const res = await axios.get(`${process.env.REACT_APP_API_URL}/cryptos/${id}`);
           if (res.data) {
@@ -42,7 +40,7 @@ const CryptoInfo = () => {
         console.error("Erreur lors de la récupération des données de la crypto :", err);
         setError("Erreur lors de la récupération des données de la cryptomonnaie.");
       } finally {
-        setIsLoading(false); // Terminer le chargement
+        setIsLoading(false); 
       }
     };
   
@@ -50,7 +48,6 @@ const CryptoInfo = () => {
   }, [id]);
   
 
-  // Gérer la soumission du formulaire d'achat
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -59,43 +56,39 @@ const CryptoInfo = () => {
       return;
     }
 
-    // Calculer le montant total de l'achat
     const totalAmount = cryptoData.price * quantity;
 
-    // Récupérer l'ID de l'utilisateur depuis le token JWT
     const token = localStorage.getItem("token");
     if (!token) {
       setError("Vous devez être connecté pour effectuer un achat.");
       return;
     }
 
-    const userId = JSON.parse(atob(token.split('.')[1])).userId; // Récupération de l'ID utilisateur du token
+    const userId = JSON.parse(atob(token.split('.')[1])).userId; 
 
     try {
-      setIsLoading(true); // Lancement du processus d'achat
+      setIsLoading(true); 
 
-      // Ajouter la crypto au portefeuille de l'utilisateur
       const res = await axios.post(
         `${process.env.REACT_APP_API_URL}/portefeuilles`,
         {
-          utilisateur_id: userId, // Utilisation de l'ID utilisateur dynamique
-          cryptomonnaie_id: id, // ID de la cryptomonnaie
+          utilisateur_id: userId,
+          cryptomonnaie_id: id, 
           quantité: quantity,
         },
         {
           headers: {
-            Authorization: `Bearer ${token}` // Token d'authentification
+            Authorization: `Bearer ${token}`
           }
         }
       );
 
-      // Afficher un message de confirmation
       alert(`Achat réussi ! Vous avez acheté ${quantity} ${cryptoData.name} pour ${totalAmount} €.`);
     } catch (err) {
       console.error("Erreur lors de l'achat :", err);
       setError("Erreur lors de l'achat. Veuillez réessayer.");
     } finally {
-      setIsLoading(false); // Fin du processus d'achat
+      setIsLoading(false); 
     }
   };
 
@@ -107,7 +100,7 @@ const CryptoInfo = () => {
         <p className="price">Prix actuel : <span>{cryptoData.price} €</span></p>
 
         {isLoading ? (
-          <p>Chargement...</p> // Afficher un message de chargement pendant la récupération des données
+          <p>Chargement...</p> 
         ) : (
           <form onSubmit={handleSubmit} className="buy-form">
             <div className="form-group">
@@ -149,7 +142,7 @@ const CryptoInfo = () => {
               />
             </div>
 
-            {error && <p className="error">{error}</p>} {/* Affichage de l'erreur si présente */}
+            {error && <p className="error">{error}</p>}
 
             <button type="submit" className="buy-button" disabled={isLoading}>
               {isLoading ? "Traitement..." : "Confirmer l'achat"}
